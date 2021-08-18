@@ -22,7 +22,6 @@ func requestHTTP(url, apikey string) *http.Response {
 		log.Debugln("Status Code:", resp.StatusCode)
 	} else {
 		log.Errorln("Status Code:", resp.StatusCode)
-
 	}
 
 	return resp

@@ -2,9 +2,10 @@ package main
 
 import (
 	"flag"
+	"github.com/mnixry/logentries_exporter/exporter"
+
 	"net/http"
 
-	"github.com/logentries_exporter/exporter"
 	"github.com/prometheus/client_golang/prometheus"
 	"github.com/prometheus/client_golang/prometheus/promhttp"
 	"github.com/prometheus/common/version"
@@ -17,7 +18,6 @@ var (
 	listeningAddress = flag.String("telemetry.address", ":9582", "Address on which to expose metrics.")
 	metricsPath      = flag.String("telemetry.endpoint", "/metrics", "Path under which to expose metric.")
 	apikey           = flag.String("apikey", "", "APIKEY to connect logentries metrics.")
-	region           = flag.String("region", "us", "Region logentries (us, eu, ca or au).")
 	isDebug          = flag.String("isDebug", "false", "Output verbose debug information.")
 )
 
@@ -38,10 +38,10 @@ func main() {
 	log.Infoln("Starting logentries_exporter", version.Info())
 
 	// Scraper AccountUsage
-	prometheus.MustRegister(exporter.AccountGetUsage(*apikey,*region))
+	prometheus.MustRegister(exporter.AccountGetUsage(*apikey))
 
 	// Scraper LogsUsage
-	prometheus.MustRegister(exporter.LogsGetUsage(*apikey,*region))
+	prometheus.MustRegister(exporter.LogsGetUsage(*apikey))
 
 	// Scraper Exporter version
 	prometheus.MustRegister(version.NewCollector("logentries_exporter"))
